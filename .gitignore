@@ -2,7 +2,7 @@
 .env.prod
 node_modules
 /docker/mysql/logs
-**/*/dist
+dist
 /storage/uploads/*
 /docker/nginx/certs/*
 /docker/nginx/dynamic-configs/*
