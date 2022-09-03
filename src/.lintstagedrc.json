@@ -1,0 +1,11 @@
+{
+  "app/**/*.{js,ts,jsx,tsx}": [
+    "npm run format && lint"
+  ],
+  "libs/**/*.{js,ts,jsx,tsx}": [
+    "npm run format && lint"
+  ],
+  "test/**/*.{js,ts,jsx,tsx}": [
+    "npm run format && lint"
+  ]
+}

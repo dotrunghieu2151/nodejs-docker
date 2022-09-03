@@ -1,0 +1,8 @@
+.env
+.env.prod
+node_modules
+/docker/mysql/logs
+**/*/dist
+/storage/uploads/*
+/docker/nginx/certs/*
+/docker/nginx/dynamic-configs/*

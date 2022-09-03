@@ -1,0 +1,72 @@
+version: "3"
+services:
+  db:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-27017}:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+      - MONGO_INITDB_DATABASE=${DB_DATABASE:-default}
+    volumes:
+      - ./docker/mongodb/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - db-data:/data/db
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/nodejs/nodejs.prod.Dockerfile
+      args:
+        PROJECT_PATH: ${PROJECT_PATH}
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./storage:/var/www/app/storage
+    env_file:
+      - .env.prod
+    working_dir: /var/www/app
+
+  redis:
+    image: "redis:alpine"
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/nginx.Dockerfile
+    restart: unless-stopped      
+    depends_on:
+      - template-gen
+      - app
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/dynamic-configs:/etc/nginx/custom_templates
+      - ./docker/nginx/static-configs:/etc/nginx/static-configs
+      - ./docker/nginx/certs:/etc/nginx/certs
+      - ./storage:/var/www/app/storage
+    ports:
+      - ${WEB_PORT_HTTPS}:443
+      - ${WEB_PORT_HTTP}:80
+    env_file:
+      - .env.prod
+    working_dir: /var/www/app
+
+  template-gen:
+    build:
+      context: .
+      dockerfile: docker/template-gen/template-gen.Dockerfile
+    volumes:
+      - ./docker/nginx/dynamic-configs:/var/www/app/template-gen/output
+      - ./docker/template-gen/templates:/var/www/app/template-gen/templates
+      - ./docker/template-gen/src:/var/www/app/template-gen/src
+    env_file:
+      - .env.prod
+
+volumes:
+  db-data: null
+  redis-data: null

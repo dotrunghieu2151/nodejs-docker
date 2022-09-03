@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "declaration": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "rootDir": "./",
+    "outDir": "../dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "strict": true, /* Enable all strict type-checking options. */
+    "typeRoots": [
+      "src/types",
+      "node_modules/@types"
+    ],
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+    }
+  },
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}
