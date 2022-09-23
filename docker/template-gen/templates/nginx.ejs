@@ -32,15 +32,86 @@ server {
   <% } %>
 
   include /etc/nginx/static-configs/ssl.conf;
+  
+  http2_push_preload on;
 
-
+  gzip_static on;
   gzip             on;
-  gzip_min_length  10240;
+  gzip_min_length 4096;
   gzip_proxied no-cache no-store private expired auth;
   gzip_vary on;
   gzip_disable msie6;
   gzip_comp_level 6;
-  gzip_types text/css text/javascript text/xml text/plain text/x-component application/javascript application/x-javascript application/json application/xml application/rss+xml application/atom+xml font/truetype font/opentype application/vnd.ms-fontobject image/svg+xml image/x-icon image/bmp;
+  gzip_types
+      application/atom+xml
+      application/geo+json
+      application/javascript
+      application/x-javascript
+      application/json
+      application/ld+json
+      application/manifest+json
+      application/rdf+xml
+      application/rss+xml
+      application/vnd.ms-fontobject
+      application/wasm
+      application/x-web-app-manifest+json
+      application/xhtml+xml
+      application/xml
+      font/eot
+      font/otf
+      font/ttf
+      image/bmp
+      image/svg+xml
+      text/cache-manifest
+      text/calendar
+      text/css
+      text/javascript
+      text/markdown
+      text/plain
+      text/xml
+      text/vcard
+      text/vnd.rim.location.xloc
+      text/vtt
+      text/x-component
+      text/x-cross-domain-policy;
+  
+    brotli_static on;
+    brotli on;
+    brotli_buffers 16 8k;
+    brotli_comp_level 6;
+    brotli_min_length 4096;
+    brotli_types 
+      application/atom+xml
+      application/geo+json
+      application/javascript
+      application/x-javascript
+      application/json
+      application/ld+json
+      application/manifest+json
+      application/rdf+xml
+      application/rss+xml
+      application/vnd.ms-fontobject
+      application/wasm
+      application/x-web-app-manifest+json
+      application/xhtml+xml
+      application/xml
+      font/eot
+      font/otf
+      font/ttf
+      image/bmp
+      image/svg+xml
+      text/cache-manifest
+      text/calendar
+      text/css
+      text/javascript
+      text/markdown
+      text/plain
+      text/xml
+      text/vcard
+      text/vnd.rim.location.xloc
+      text/vtt
+      text/x-component
+      text/x-cross-domain-policy;
 
   location / {
     proxy_set_header Host $http_host;
@@ -56,22 +127,21 @@ server {
     proxy_set_header Connection 'upgrade';
     proxy_pass http://app;
     proxy_cache_bypass $http_upgrade;
-    http2_push_preload on;
   }
 
   location /static/ {
     alias /var/www/app/storage/;
     autoindex on;
-    http2_push_preload on;
-    if ( $request_filename ~ "^.*/(.+\.(zip|csv|jpg|jpeg|png|gif))$" ){
+    if ( $request_filename ~ "^.*/(.+\.(jpg|jpeg|svg|gif|png|ico|css|zip|br|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|js|flv|swf|xml|woff2|woff|js))$" ){
       set $fname $1;
       expires 365d;
-      add_header Cache-Control 'public';
+      add_header Cache-Control 'public, max-age=31536000, must-revalidate';
     }
   }
 }
 <% } %>
 
+<% if(!enableSSL) { %>
 server {
   listen 80;
 
@@ -84,13 +154,83 @@ server {
   limit_conn conn_limit_per_ip 12;
   limit_req zone=req_limit_per_ip_api burst=30 nodelay;
 
+  gzip_static on;
   gzip             on;
-  gzip_min_length  10240;
+  gzip_min_length 4096;
   gzip_proxied no-cache no-store private expired auth;
   gzip_vary on;
   gzip_disable msie6;
   gzip_comp_level 6;
-  gzip_types text/css text/javascript text/xml text/plain text/x-component application/javascript application/x-javascript application/json application/xml application/rss+xml application/atom+xml font/truetype font/opentype application/vnd.ms-fontobject image/svg+xml image/x-icon image/bmp;
+  gzip_types
+      application/atom+xml
+      application/geo+json
+      application/javascript
+      application/x-javascript
+      application/json
+      application/ld+json
+      application/manifest+json
+      application/rdf+xml
+      application/rss+xml
+      application/vnd.ms-fontobject
+      application/wasm
+      application/x-web-app-manifest+json
+      application/xhtml+xml
+      application/xml
+      font/eot
+      font/otf
+      font/ttf
+      image/bmp
+      image/svg+xml
+      text/cache-manifest
+      text/calendar
+      text/css
+      text/javascript
+      text/markdown
+      text/plain
+      text/xml
+      text/vcard
+      text/vnd.rim.location.xloc
+      text/vtt
+      text/x-component
+      text/x-cross-domain-policy;
+  
+    brotli_static on;
+    brotli on;
+    brotli_buffers 16 8k;
+    brotli_comp_level 6;
+    brotli_min_length 4096;
+    brotli_types 
+      application/atom+xml
+      application/geo+json
+      application/javascript
+      application/x-javascript
+      application/json
+      application/ld+json
+      application/manifest+json
+      application/rdf+xml
+      application/rss+xml
+      application/vnd.ms-fontobject
+      application/wasm
+      application/x-web-app-manifest+json
+      application/xhtml+xml
+      application/xml
+      font/eot
+      font/otf
+      font/ttf
+      image/bmp
+      image/svg+xml
+      text/cache-manifest
+      text/calendar
+      text/css
+      text/javascript
+      text/markdown
+      text/plain
+      text/xml
+      text/vcard
+      text/vnd.rim.location.xloc
+      text/vtt
+      text/x-component
+      text/x-cross-domain-policy;
 
   location / {
     proxy_set_header Host $http_host;
@@ -106,17 +246,16 @@ server {
     proxy_set_header Connection 'upgrade';
     proxy_pass http://app;
     proxy_cache_bypass $http_upgrade;
-    http2_push_preload on;
   }
 
   location /static/ {
     alias /var/www/app/storage/;
     autoindex on;
-    http2_push_preload on;
-    if ( $request_filename ~ "^.*/(.+\.(zip|csv|jpg|jpeg|png|gif))$" ){
+    if ( $request_filename ~ "^.*/(.+\.(jpg|jpeg|svg|gif|png|ico|css|zip|br|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|js|flv|swf|xml|woff2|woff|js))$" ){
       set $fname $1;
       expires 365d;
-      add_header Cache-Control 'public';
+      add_header Cache-Control 'public, max-age=31536000, must-revalidate';
     }
   }
 }
+<% } %>

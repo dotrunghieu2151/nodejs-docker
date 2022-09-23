@@ -1,7 +1,11 @@
+const port = 80;
 import express from 'express';
 
+import { test } from '@/libs/mod';
+
+test;
+
 const app = express();
-const port = 80;
 
 app.set('trust proxy', true);
 

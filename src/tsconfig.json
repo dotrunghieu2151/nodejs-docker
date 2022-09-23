@@ -8,6 +8,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "target": "es2017",
     "sourceMap": true,
@@ -21,10 +23,10 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@app/*": [
+      "@/app/*": [
         "app/*"
       ],
-      "@libs/*": [
+      "@/libs/*": [
         "libs/*"
       ],
     }

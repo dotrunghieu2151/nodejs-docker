@@ -1,11 +1,12 @@
 {
-  "app/**/*.{js,ts,jsx,tsx}": [
-    "npm run format && lint"
+  "./app/**/*.{js,ts,jsx,tsx}": [
+    "eslint --fix",
+    "prettier --write",
+    "npm run test:staged"
   ],
-  "libs/**/*.{js,ts,jsx,tsx}": [
-    "npm run format && lint"
-  ],
-  "test/**/*.{js,ts,jsx,tsx}": [
-    "npm run format && lint"
+  "./libs/**/*.{js,ts,jsx,tsx}": [
+    "eslint --fix",
+    "prettier --write",
+    "npm run test:staged"
   ]
 }
