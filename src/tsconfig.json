@@ -16,19 +16,16 @@
     "rootDir": "./",
     "outDir": "../dist",
     "baseUrl": "./",
+    "moduleResolution": "Node",
+    "lib": ["es6"],
     "incremental": true,
-    "strict": true, /* Enable all strict type-checking options. */
-    "typeRoots": [
-      "src/types",
-      "node_modules/@types"
-    ],
+    "strict": true,
+    "importHelpers": true,
+    "types": ["reflect-metadata"],
+    "typeRoots": ["src/types", "node_modules/@types"],
     "paths": {
-      "@/app/*": [
-        "app/*"
-      ],
-      "@/libs/*": [
-        "libs/*"
-      ],
+      "@/app/*": ["app/*"],
+      "@/libs/*": ["libs/*"]
     }
   },
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
