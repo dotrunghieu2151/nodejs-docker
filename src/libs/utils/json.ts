@@ -23,3 +23,12 @@ export const JSONStringify = <
   const stringify = fastJson(schema);
   return stringify(obj);
 };
+
+export const JSONParse = (value: string) => {
+  try {
+    const result: string = JSON.parse(value);
+    return result;
+  } catch (e) {
+    return null;
+  }
+};

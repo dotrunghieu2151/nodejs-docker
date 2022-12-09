@@ -21,10 +21,24 @@ export const capitalize = (s: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-export const upperCamelCaseToSnakeCase = (value: string) => {
+export const pascalCaseToSnakeCase = (value: string) => {
   return value
     .replace(/^([A-Z])/, ($1) => $1.toLowerCase())
-    .replace(/([A-Z])/g, ($1) => `-${$1.toLowerCase()}`);
+    .replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`);
+};
+
+export const snakeCaseToPascalCase = (value: string) => {
+  return value
+    .replace(/^([a-z])/, ($1) => $1.toUpperCase())
+    .replace(/(_[a-z])/g, ($1) => $1.slice(1).toUpperCase());
+};
+
+export const camelCaseToSnakeCase = (value: string) => {
+  return value.replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`);
+};
+
+export const snakeCaseToCamelCase = (value: string) => {
+  return value.replace(/(_[a-z])/g, ($1) => $1.slice(1).toUpperCase());
 };
 
 export const compareVersion = (
