@@ -1,14 +1,25 @@
-const port = 80;
-import express from 'express';
+import 'reflect-metadata';
+import { Container } from 'typedi';
 
-const app = express();
+import { App } from './app';
 
-app.set('trust proxy', true);
+try {
+  const app = Container.get(App);
+  app.start().catch(handleError);
+} catch (e) {
+  handleError(e);
+}
 
-app.get('/', (req, res) => {
-  res.send('Hello World d!');
+process.on('uncaughtException', (err) => {
+  console.log('uncaughtException', err);
+  process.exit(1);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+process.on('unhandledRejection', (reason: unknown, promise: unknown) => {
+  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
 });
+function handleError(e: unknown) {
+  console.log(e);
+  process.exit(1);
+}
