@@ -6,15 +6,17 @@ map $http_range $saferange {
 }
 # Start a proxy server listening on port 80 that proxies traffic to the "app" server group
 upstream app {<% for (let i = 1 ; i <= scale; i++) { %>
-  <%-`server ${containerName}_${i}:${port};` -%>
+  <%-`server ${containerName}-app-${i}:${port};` -%>
   <% }; %>
 }
 
 <% if(enableSSL) { %>
 server {
-  listen 443 ssl http2;
-  listen [::]:443 ssl http2;
+  listen 443 ssl;
+  listen [::]:443 ssl;
   server_name <%= webDomain %>;
+
+  http2 on;
 
   charset utf-8;
   client_body_buffer_size 10K;
@@ -32,8 +34,6 @@ server {
   <% } %>
 
   include /etc/nginx/static-configs/ssl.conf;
-  
-  http2_push_preload on;
 
   gzip_static on;
   gzip             on;

@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-echo "build whitebook-backend dev..."
+echo "build dev..."
 docker-compose build

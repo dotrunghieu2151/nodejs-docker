@@ -11,7 +11,7 @@ const data = {
   containerName: process.env.APP_CONTAINER_NAME,
   port: process.env.APP_PORT,
   webDomain: process.env.WEB_DOMAIN,
-  enableSSL: process.env.NGINX_ENABLE_SSL,
+  enableSSL: Boolean(Number(process.env.NGINX_ENABLE_SSL)),
   enableDHParam: process.env.NGINX_ENABLE_SSL_DHPARAM,
 };
 

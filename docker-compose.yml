@@ -63,8 +63,6 @@ services:
       dockerfile: docker/template-gen/template-gen.Dockerfile
     volumes:
       - ./docker/nginx/dynamic-configs:/var/www/app/template-gen/output
-      - ./docker/template-gen/templates:/var/www/app/template-gen/templates
-      - ./docker/template-gen/src:/var/www/app/template-gen/src
     env_file:
       - .env
 

@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-echo "down whitebook-backend dev..."
+echo "down dev..."
 docker-compose down

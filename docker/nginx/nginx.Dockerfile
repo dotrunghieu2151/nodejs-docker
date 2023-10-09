@@ -1,4 +1,4 @@
-FROM nginx:alpine AS builder
+FROM nginx:alpine3.18 AS builder
 
 # nginx:alpine contains NGINX_VERSION environment variable, like so:
 # ENV NGINX_VERSION 1.15.0
