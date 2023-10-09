@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 
 import { IServer } from './core/interfaces/server.interface';
+import { generateSwaggerDocumentation } from './infra/swagger/swagger-generator';
 import { ExpressServer } from './server';
 
 @Service()
@@ -11,6 +12,9 @@ export class App {
   ) {}
 
   async start() {
+    if (process.env.NODE_ENV === 'development') {
+      await generateSwaggerDocumentation();
+    }
     this.server.listen();
   }
 

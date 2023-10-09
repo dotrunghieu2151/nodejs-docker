@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
+import swaggerUi from 'swagger-ui-express';
 import { Inject, Service } from 'typedi';
 
 import { ILogger } from './core/interfaces/logger.interface';
@@ -32,6 +33,14 @@ export class ExpressServer implements IServer {
     const serverRouter = ServerRouter();
     this.express.use('/api/v1', serverRouter);
     this.express.use(globalErrorMiddleware(this.logger));
+    if (process.env.NODE_ENV === 'development') {
+      this.express.use(
+        '/doc',
+        swaggerUi.serve,
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        swaggerUi.setup(require('public/swagger.json')),
+      );
+    }
     this.httpServer = http.createServer(this.express);
   }
 
